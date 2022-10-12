@@ -1,0 +1,26 @@
+openapi: 3.0.2
+info:
+  title: Event Management API
+  version: 1.0.0
+  description: Event Management API docs
+paths:
+  /data:
+    get:
+      description: ""
+      parameters: []
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Not Found
+components:
+  schemas:
+    error:
+      title: Root Type for error
+      description: error
+      type: object
+      properties:
+        error:
+          type: string
+      example:
+        error: Error description
