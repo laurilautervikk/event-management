@@ -10,7 +10,7 @@ paths:
       parameters: []
       responses:
         "200":
-          description: OK
+          description: OK more
         "404":
           description: Not Found
 components:

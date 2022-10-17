@@ -1,20 +1,19 @@
 import express from "express";
-import apiRouter from "./routes/apiRoutes.js";
+import * as eventController from "./controllers/eventController.js";
 import * as dotenv from "dotenv";
 import YAML from "yamljs";
 dotenv.config();
 const port = process.env.PORT;
 
 import swaggerUi from "swagger-ui-express";
-import swaggerDocument from "./swagger.json" assert { type: "json" };
-//const swaggerDocument = YAML.load("swagger-config.yaml");
-//const swaggerJsonDocument = require("./swagger.json");
+const swaggerDocument = YAML.load("swagger.yaml");
 
 const app = express();
 app.use(express.json());
-app.use("/api", apiRouter);
-
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+
+//Routes
+app.get("/data", eventController.getData);
 
 //serving public files
 //app.use("/", express.static(path.join(__dirname, "../public")));

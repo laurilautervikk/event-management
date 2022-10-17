@@ -1,8 +1,5 @@
-import express from "express";
-const apiRouter = express.Router();
-import * as apiController from "../controllers/apiController.js";
+//import express from "express";
 
 //API routes
-apiRouter.get("/data", apiController.getData);
 
-export default apiRouter;
+//export default apiRouter;
