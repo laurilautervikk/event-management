@@ -5,8 +5,6 @@ import bodyParser from "body-parser";
 userRouter.use(bodyParser.json());
 userRouter.use(bodyParser.urlencoded({ extended: false }));
 
-userRouter.get("/data", userController.getData);
-
 userRouter.post("/register", userController.createUser);
 
 export default userRouter;

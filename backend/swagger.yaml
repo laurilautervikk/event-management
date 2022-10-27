@@ -4,23 +4,45 @@ info:
   version: 1.0.0
   description: Event Management API docs
 paths:
-  /user:
-    get:
-      description: ""
-      parameters: []
+  /users/register:
+    post:
+      summary: Register a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
       responses:
-        "200":
-          description: OK
-        "404":
-          description: No user found
+        "201":
+          description: User created
+        "403":
+          description: User already exists
+        "406":
+          description: Email or password not acceptable
+        "500":
+          description: Error
+
 components:
   schemas:
     error:
-      title: Root Type for error
-      description: error
       type: object
       properties:
-        error:
+        code:
+          type: integer
+        message:
           type: string
-      example:
-        error: Error description
+    User:
+      type: object
+      properties:
+        _id:
+          type: string
+        email:
+          type: string
+        password:
+          type: string

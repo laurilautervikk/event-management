@@ -1,5 +1,4 @@
 import express from "express";
-//import mongoose from "mongoose";
 import userRouter from "./routes/userRoutes.js";
 import eventRouter from "./routes/eventRoutes.js";
 import * as dotenv from "dotenv";
@@ -15,8 +14,8 @@ const app = express();
 app.use(express.json());
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
-app.use("/user", userRouter);
-app.use("/event", eventRouter);
+app.use("/users", userRouter);
+app.use("/events", eventRouter);
 
 //serving public files
 // app.use("/", express.static(path.join(__dirname, "../public")));
