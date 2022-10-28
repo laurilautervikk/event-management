@@ -3,6 +3,7 @@ info:
   title: Event Management API
   version: 1.0.0
   description: Event Management API docs
+Authorization: Bearer <token>
 paths:
   /users/register:
     post:
@@ -27,10 +28,40 @@ paths:
           description: Email or password not acceptable
         "500":
           description: Error
+  /users/login:
+    post:
+      summary: Login a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                email:
+                  type: string
+                password:
+                  type: string
+      responses:
+        "200":
+          description: "token: string"
+        "401":
+          description: Wrong password
+        "404":
+          description: User does not exist
+        "411":
+          description: Email or password field empty
+        "500":
+          description: Error
 
 components:
+  securitySchemes:
+    bearerAuth: # arbitrary name for the security scheme
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
   schemas:
-    error:
+    Error:
       type: object
       properties:
         code:

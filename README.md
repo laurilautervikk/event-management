@@ -1,6 +1,6 @@
-# event-management
+# Event Management
 
-Event management SaaS
+A SaaS that enables to manage all sorts of events
 
 ```
 cd backend
@@ -8,9 +8,8 @@ npm i
 npm run dev
 ```
 
-### routes
+### Documentation
 
 ```
-localhost:8080/api/data
 localhost:8080/api-docs
 ```
