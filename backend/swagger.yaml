@@ -128,10 +128,39 @@ paths:
                     authorId: 635ae70f46211d0b55c59f22
                   - _id: 635c381cc8c825565c56c291
                     image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                    location: Haapsalu
+                    time: '2023-12-25T00:00:00.000Z'
+                    authorId: 635ae70f46211d0b55c59f44
+          description: Returns a list of Events
+        "500":
+          description: Error
+  /events/my-events:
+    get:
+      tags:
+        - events
+      description: Get a list of users events
+      security:
+        - bearerAuth: []
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                  items:
+                    $ref: "#components/schemas/Event"
+              example:
+                  - _id: 635c381cc8c825565c56c291
+                    image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
                     location: Tallinn
                     time: '2023-12-25T00:00:00.000Z'
                     authorId: 635ae70f46211d0b55c59f22
-          description: Returns a list of Events
+                  - _id: 635c381cc8c825565c56c291
+                    image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                    location: Koeru
+                    time: '2023-12-25T00:00:00.000Z'
+                    authorId: 635ae70f46211d0b55c59f22
+          description: Returns a list of users Events
         "500":
           description: Error
 components:

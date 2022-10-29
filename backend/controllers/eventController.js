@@ -33,3 +33,12 @@ export async function listEvents(req, res) {
     res.status(500).send({ error: error });
   }
 }
+
+export async function listmyEvents(req, res) {
+  try {
+    const list = await Event.find({ authorId: req.auth.id });
+    res.status(200).send(list);
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+}

@@ -9,4 +9,6 @@ eventRouter.post("/add", eventController.createEvent);
 
 eventRouter.get("/list", eventController.listEvents);
 
+eventRouter.get("/my-events", eventController.listmyEvents);
+
 export default eventRouter;
