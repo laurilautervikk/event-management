@@ -221,6 +221,30 @@ paths:
           description: No authorization token was found
         "500":
           description: Error
+  /events/delete/{id}:
+    delete:
+      tags:
+        - events
+      description: Delete event
+      security:
+        - bearerAuth: []
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the event that will be deleted
+          example: 635c381cc8c825565c56c291
+      responses:
+        "204":
+          description: Event deleted
+        "401":
+          description: No authorization token was found
+        "403":
+          description: Event not found
+        "500":
+          description: Error
 components:
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme

@@ -13,4 +13,6 @@ eventRouter.get("/my-events", eventController.listmyEvents);
 
 eventRouter.patch("/edit/:id", eventController.editEvent);
 
+eventRouter.patch("/delete/:id", eventController.deleteEvent);
+
 export default eventRouter;

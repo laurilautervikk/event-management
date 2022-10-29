@@ -68,3 +68,16 @@ export async function editEvent(req, res) {
     res.status(500).send({ error: error });
   }
 }
+
+export async function deleteEvent(req, res) {
+  try {
+    const result = await Event.deleteOne({ _id: req.params.id });
+    if (result.deletedCount === 0) {
+      res.status(403).send({ message: "Event not found" });
+    } else {
+      res.status(204).send({ message: "Event deleted" });
+    }
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+}
