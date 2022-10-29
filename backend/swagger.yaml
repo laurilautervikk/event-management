@@ -4,9 +4,19 @@ info:
   version: 1.0.0
   description: Event Management API docs
 Authorization: Bearer <token>
+tags:
+  - name: users
+    description: Operations related to users
+  - name: events
+    description: Operations related to events
+schemes:
+  - https
+  - http
 paths:
   /users/register:
     post:
+      tags:
+        - users
       summary: Register a new user
       requestBody:
         required: true
@@ -33,6 +43,8 @@ paths:
           description: Error
   /users/login:
     post:
+      tags:
+        - users
       summary: Login a user
       requestBody:
         required: true
@@ -61,6 +73,8 @@ paths:
           description: Error
   /events/add:
     post:
+      tags:
+        - events
       summary: Add a new event
       security:
         - bearerAuth: []
@@ -93,6 +107,33 @@ paths:
           description: One or more required fields empty
         "500":
           description: Error
+  /events/list:
+    get:
+      tags:
+        - events
+      description: Get a list of all events
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                  items:
+                    $ref: "#components/schemas/Event"
+              example:
+                  - _id: 635c381cc8c825565c56c291
+                    image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                    location: Tallinn
+                    time: '2023-12-25T00:00:00.000Z'
+                    authorId: 635ae70f46211d0b55c59f22
+                  - _id: 635c381cc8c825565c56c291
+                    image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                    location: Tallinn
+                    time: '2023-12-25T00:00:00.000Z'
+                    authorId: 635ae70f46211d0b55c59f22
+          description: Returns a list of Events
+        "500":
+          description: Error
 components:
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
@@ -101,6 +142,7 @@ components:
       bearerFormat: JWT
   schemas:
     Error:
+      title: Type for Error
       type: object
       properties:
         code:
@@ -108,6 +150,7 @@ components:
         message:
           type: string
     User:
+      title: Type for User
       type: object
       properties:
         _id:
@@ -117,6 +160,8 @@ components:
         password:
           type: string
     Event:
+      title: Type for Event
+      description: ''
       type: object
       properties:
         _id:
@@ -131,3 +176,4 @@ components:
           type: date
         authorId:
           type: string
+          

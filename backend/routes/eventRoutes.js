@@ -7,6 +7,6 @@ eventRouter.use(bodyParser.urlencoded({ extended: false }));
 
 eventRouter.post("/add", eventController.createEvent);
 
-//eventRouter.post("/list", eventController.listEvents);
+eventRouter.get("/list", eventController.listEvents);
 
 export default eventRouter;

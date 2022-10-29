@@ -15,7 +15,7 @@ export async function createEvent(req, res) {
         time: new Date(time),
         authorId: req.auth.id,
       };
-      Event.create(event);
+      await Event.create(event);
       res.status(201).send({ message: "Event created" });
     } else {
       res.status(411).send({ error: "One or more required fields empty" });
@@ -25,11 +25,11 @@ export async function createEvent(req, res) {
   }
 }
 
-// export async function listEvents(req, res) {
-//   try {
-//     console.log("events displayed without token");
-//     res.status(201).send({ message: "events displayed" });
-//   } catch (error) {
-//     res.status(500).send({ error: error });
-//   }
-// }
+export async function listEvents(req, res) {
+  try {
+    const list = await Event.find();
+    res.status(200).send(list);
+  } catch (error) {
+    res.status(500).send({ error: error });
+  }
+}
