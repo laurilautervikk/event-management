@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const EventSchema = new Schema({
   title: { type: String, required: true },
-  image: { type: String, required: false },
+  image: { type: String, required: true },
   location: { type: String, required: true },
   time: { type: Date, default: Date.now },
   authorId: { type: String, required: true },
