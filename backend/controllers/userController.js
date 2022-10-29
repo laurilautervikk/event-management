@@ -1,15 +1,15 @@
 import { User } from "../dbConnection.js";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
-const secret = process.env.JWT_SECRET;
+const SECRET = process.env.JWT_SECRET;
 
 export async function createUser(req, res) {
   try {
     const { email, password } = req.body;
     const re = /\S+@\S+\.\S+/;
     if (re.test(email) && password.length > 4) {
-      const getUser = await User.findOne({ email: email });
-      if (!getUser) {
+      const user = await User.findOne({ email: email });
+      if (!user) {
         let createUser = new User({
           email: email,
           password: bcrypt.hashSync(password, 10),
@@ -37,8 +37,8 @@ export async function loginUser(req, res) {
       if (user) {
         const isPasswordvalid = bcrypt.compare(password, user.password);
         if (isPasswordvalid) {
-          const token = jwt.sign({ email: user.email }, secret, {
-            expiresIn: "1h",
+          const token = jwt.sign({ id: user._id }, SECRET, {
+            expiresIn: "24h",
           });
           console.log("User logged in, token sent");
           res.status(200).send({ token: "Bearer " + token });

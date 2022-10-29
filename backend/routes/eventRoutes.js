@@ -5,6 +5,8 @@ import bodyParser from "body-parser";
 eventRouter.use(bodyParser.json());
 eventRouter.use(bodyParser.urlencoded({ extended: false }));
 
-eventRouter.get("/data", eventController.getData);
+eventRouter.post("/add", eventController.createEvent);
+
+//eventRouter.post("/list", eventController.listEvents);
 
 export default eventRouter;

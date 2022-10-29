@@ -19,6 +19,9 @@ paths:
                   type: string
                 password:
                   type: string
+              example:
+                email: test@test.com
+                password: testtest
       responses:
         "201":
           description: User created
@@ -42,6 +45,9 @@ paths:
                   type: string
                 password:
                   type: string
+              example:
+                email: test@test.com
+                password: testtest
       responses:
         "200":
           description: "token: string"
@@ -53,7 +59,40 @@ paths:
           description: Email or password field empty
         "500":
           description: Error
-
+  /events/add:
+    post:
+      summary: Add a new event
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                image:
+                  type: string
+                location:
+                  type: string
+                time:
+                  type: date
+              example:
+                title: Jaanituli
+                image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                location: Tartu
+                time: "2023-06-23T18:30:00"
+      responses:
+        "201":
+          description: Event created
+        "401":
+          description: No authorization token was found
+        "411":
+          description: One or more required fields empty
+        "500":
+          description: Error
 components:
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
@@ -76,4 +115,19 @@ components:
         email:
           type: string
         password:
+          type: string
+    Event:
+      type: object
+      properties:
+        _id:
+          type: string
+        title:
+          type: string
+        image:
+          type: string
+        location:
+          type: string
+        time:
+          type: date
+        authorId:
           type: string
