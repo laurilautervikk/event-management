@@ -1,6 +1,5 @@
 import express from "express";
-import userRouter from "./routes/userRoutes.js";
-import eventRouter from "./routes/eventRoutes.js";
+import router from "./routes/routes.js";
 import { expressjwt } from "express-jwt";
 import * as dotenv from "dotenv";
 import YAML from "yamljs";
@@ -21,16 +20,14 @@ app.use(
   expressjwt({ secret: SECRET, algorithms: ["HS256"] }).unless({
     path: [
       "/api-docs",
-      "/users/register",
-      "/users/login",
-      "/events/list",
-      //{ url: /^\/events\/.*/, methods: ["GET"] }, //ENABLE TO VIEW EVENT DETAILS
+      "/users",
+      "/sessions",
+      { url: "/events", methods: ["GET"] },
     ],
   })
 );
 
-app.use("/users", userRouter);
-app.use("/events", eventRouter);
+app.use("/", router);
 
 //serving public files
 // app.use("/", express.static(path.join(__dirname, "../public")));

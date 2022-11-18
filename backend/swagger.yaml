@@ -5,19 +5,20 @@ info:
   description: Event Management API docs
 Authorization: Bearer <token>
 tags:
-  - name: users
+  - name: Users
     description: Operations related to users
-  - name: events
+  - name: Events
     description: Operations related to events
 schemes:
   - https
   - http
 paths:
-  /users/register:
+  /users:
     post:
       tags:
-        - users
+        - Users
       summary: Register a new user
+      description: Register a new user
       requestBody:
         required: true
         content:
@@ -34,18 +35,38 @@ paths:
                 password: testtest
       responses:
         "201":
-          description: User created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+              examples:
+                User created:
+                  value:
+                    message: User created
         "403":
-          description: User already exists
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                User already exists:
+                  value:
+                    error: User already exists
         "406":
-          description: Email or password not acceptable
-        "500":
-          description: Error
-  /users/login:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Email or password not acceptable:
+                  value:
+                    error: Email or password not acceptable
+  /sessions:
     post:
       tags:
-        - users
+        - Users
       summary: Login a user
+      description: Login a user
       requestBody:
         required: true
         content:
@@ -62,20 +83,47 @@ paths:
                 password: testtest
       responses:
         "200":
-          description: "token: string"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Success'
+              examples:
+                User created:
+                  value:
+                    message: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjYzNWFlNzBmNDYyMTFkMGI1NWM1OWYyMiIsImlhdCI6MTY2OTI5ODI0NCwiZXhwIjoxNjY5Mzg0NjQ0fQ.mZQISGvaD03Ps8d_o-S4MHdZ_zwjGmsc-qWGc-zkISc
         "401":
-          description: Wrong password
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Wrong password:
+                  value:
+                    error: Wrong password
         "404":
-          description: User does not exist
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                User does not exist:
+                  value:
+                    error: User does not exist
         "411":
-          description: Email or password field empty
-        "500":
-          description: Error
-  /events/add:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Email or password field empty:
+                  value:
+                    error: Email or password field empty
+  /events:
     post:
       tags:
-        - events
+        - Events
       summary: Add a new event
+      description: Add a new event
       security:
         - bearerAuth: []
       requestBody:
@@ -100,17 +148,41 @@ paths:
                 time: "2023-06-23T18:30:00"
       responses:
         "201":
-          description: Event created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+              examples:
+                Event created:
+                  value:
+                    _id: 637f1b7a6758a7e19c0984eb
+                    title: Võrkpall
+                    image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                    location: Võru
+                    time: "2023-05-23T08:30:00.000Z"
+                    authorId: 635ae70f46211d0b55c59f22
         "401":
-          description: No authorization token was found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                No authorization token was found:
+                  value:
+                    error: No authorization token was found
         "411":
-          description: One or more required fields empty
-        "500":
-          description: Error
-  /events/list:
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                One or more required fields empty:
+                  value:
+                    error: One or more required fields empty
     get:
       tags:
-        - events
+        - Events
+      summary: Get a list of all events
       description: Get a list of all events
       responses:
         "200":
@@ -118,7 +190,7 @@ paths:
             application/json:
               schema:
                 type: object
-                  items:
+                items:
                     $ref: "#components/schemas/Event"
               example:
                   - _id: 635c381cc8c825565c56c291
@@ -131,13 +203,74 @@ paths:
                     location: Haapsalu
                     time: '2023-12-25T00:00:00.000Z'
                     authorId: 635ae70f46211d0b55c59f44
-          description: Returns a list of Events
-        "500":
-          description: Error
-  /events/my-events:
+          description: Returns a list of Events or an empty array
+    put:
+      tags:
+        - Events
+      summary: Edit event
+      description: Edit event
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                id:
+                  type: string
+                title:
+                  type: string
+                image:
+                  type: string
+                location:
+                  type: string
+                time:
+                  type: date
+              example:
+                id: 637f1b7a6758a7e19c0984eb
+                title: Jaanituli
+                image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                location: Tartu
+                time: "2023-06-23T18:30:00"
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                type: object
+                  $ref: "#components/schemas/Event"
+              example:
+                  _id: 635c381cc8c825565c56c291
+                  title: Uus Jaanituli
+                  image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+                  location: Tartu
+                  time: '2023-05-23T08:30:00.000Z'
+                  authorId: 635ae70f46211d0b55c59f22
+        "400":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                One or more required fields empty:
+                  value:
+                    error: One or more required fields empty
+        "401":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                No authorization token was found:
+                  value:
+                    error: No authorization token was found
+  /events/own:
     get:
       tags:
-        - events
+        - Events
+      summary: Get a list of users events
       description: Get a list of users events
       security:
         - bearerAuth: []
@@ -162,69 +295,12 @@ paths:
                     location: Koeru
                     time: '2023-12-25T00:00:00.000Z'
                     authorId: 635ae70f46211d0b55c59f22
-          description: Returns a list of users Events
-        "500":
-          description: Error
-  /events/edit/{id}:
-    patch:
-      tags:
-        - events
-      description: Edit event
-      security:
-        - bearerAuth: []
-      parameters:
-        - in: path
-          name: id
-          schema:
-            type: string
-          required: true
-          description: ID of the event that will be edited
-          example: 635c381cc8c825565c56c291
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                title:
-                  type: string
-                image:
-                  type: string
-                location:
-                  type: string
-                time:
-                  type: date
-              example:
-                title: Jaanituli
-                image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
-                location: Tartu
-                time: "2023-06-23T18:30:00"
-      responses:
-        "200":
-          content:
-            application/json:
-              schema:
-                type: object
-                  $ref: "#components/schemas/Event"
-              example:
-                  _id: 635c381cc8c825565c56c291
-                  title: Uus Jaanituli
-                  image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
-                  location: Tartu
-                  time: '2023-05-23T08:30:00.000Z'
-                  authorId: 635ae70f46211d0b55c59f22
-          description: Returns the updated event
-        "400":
-          description: One or more required fields empty or malformed
-        "401":
-          description: No authorization token was found
-        "500":
-          description: Error
-  /events/delete/{id}:
+          description: Returns a list of users Events or an empty array
+  /events/{id}:
     delete:
       tags:
-        - events
+        - Events
+      summary: Delete event
       description: Delete event
       security:
         - bearerAuth: []
@@ -238,13 +314,25 @@ paths:
           example: 635c381cc8c825565c56c291
       responses:
         "204":
-          description: Event deleted
+          description: Retruns status code 204 with no body
         "401":
-          description: No authorization token was found
-        "403":
-          description: Event not found
-        "500":
-          description: Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                No authorization token was found:
+                  value:
+                    error: No authorization token was found
+        "404":
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+              examples:
+                Event not found:
+                  value:
+                    error: Event not found
 components:
   securitySchemes:
     bearerAuth: # arbitrary name for the security scheme
@@ -252,26 +340,8 @@ components:
       scheme: bearer
       bearerFormat: JWT
   schemas:
-    Error:
-      title: Type for Error
-      type: object
-      properties:
-        code:
-          type: integer
-        message:
-          type: string
-    User:
-      title: Type for User
-      type: object
-      properties:
-        _id:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
     Event:
-      title: Type for Event
+      title: Event object
       description: ''
       type: object
       properties:
@@ -287,4 +357,29 @@ components:
           type: date
         authorId:
           type: string
+        example:
+          _id: 637f1b7a6758a7e19c0984eb
+          title: Võrkpall
+          image: https://img.freepik.com/free-vector/silhouettes-rock-concert_1048-4815.jpg
+          location: Võru
+          time: "2023-05-23T08:30:00.000Z"
+          authorId: 635ae70f46211d0b55c59f22
+    Error:
+      title: error object
+      description: ''
+      type: object
+      properties:
+        error:
+          type: string
+      example:
+        error: Error message.
+    Success:
+      title: success object
+      description: ''
+      type: object
+      properties:
+        message:
+          type: string
+      example:
+        message: Success message
           
